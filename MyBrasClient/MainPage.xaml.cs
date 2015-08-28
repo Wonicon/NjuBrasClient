@@ -24,6 +24,8 @@ namespace MyBrasClient
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public Bras bras { get; set; } = new Bras();
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -32,6 +34,9 @@ namespace MyBrasClient
         private void Login(object sender, RoutedEventArgs e)
         {
             Debug.WriteLine("Username: {0}\nPassword: {1}", username.Text, password.Password);
+            Debug.WriteLine(bras.Status);
+            if (bras.LoggedOut) { bras.Login(username.Text, password.Password); }
+            else { bras.Logout(); }
         }
     }
 }

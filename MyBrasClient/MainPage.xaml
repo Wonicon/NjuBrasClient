@@ -8,19 +8,21 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel Margin="10">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <TextBlock Text="Username" Width="80" />
-                <TextBox x:Name="username" Width="150" InputScope="Number" />
+                <TextBox x:Name="username" Width="150" InputScope="Number" IsEnabled="{x:Bind bras.LoggedOut, Mode=OneWay}" />
             </StackPanel>
             
             <StackPanel Margin="5" Orientation="Horizontal">
                 <TextBlock Text="Password" Width="80" />
-                <PasswordBox x:Name="password" Width="150" />
+                <PasswordBox x:Name="password" Width="150" IsEnabled="{x:Bind bras.LoggedOut, Mode=OneWay}" />
             </StackPanel>
 
-            <Button Click="Login" Content="Login" BorderThickness="0" Background="Purple" Foreground="White" />
-            
+            <StackPanel Orientation="Horizontal">
+                <Button HorizontalAlignment="Left" Margin="5" Click="Login" Content="{x:Bind bras.Status, Mode=OneWay}" BorderThickness="0" Background="Purple" Foreground="White" />
+                <TextBlock Margin="5" Text="{x:Bind bras.Info, Mode=OneWay}" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>
