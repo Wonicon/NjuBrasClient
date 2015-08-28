@@ -20,7 +20,7 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <Button HorizontalAlignment="Left" Margin="5" Click="Login" Content="{x:Bind bras.Status, Mode=OneWay}" BorderThickness="0" Background="Purple" Foreground="White" />
+                <Button HorizontalAlignment="Left" Width="80" Margin="5" Click="Login" Content="{x:Bind bras.Status, Mode=OneWay}" BorderThickness="0" Background="Purple" Foreground="White" />
                 <TextBlock Margin="5" Text="{x:Bind bras.Info, Mode=OneWay}" />
             </StackPanel>
         </StackPanel>
