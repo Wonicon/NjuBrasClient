@@ -1,8 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Windows.Storage;
 // Custom reference
 using Newtonsoft.Json.Linq;
 
@@ -46,7 +48,41 @@ namespace MyBrasClient
             DependencyProperty.Register("LoggedOut", typeof(bool), typeof(Bras), new PropertyMetadata(true));
         #endregion
 
+        #region Username DP
+
+
+        public string Username
+        {
+            get { return (string)GetValue(UsernameProperty); }
+            set { SetValue(UsernameProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Username.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UsernameProperty =
+            DependencyProperty.Register("Username", typeof(string), typeof(Bras), new PropertyMetadata(""));
+
+
+        #endregion
+
+        #region Password DP
+
+
+        public string Password
+        {
+            get { return (string)GetValue(PasswordProperty); }
+            set { SetValue(PasswordProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Password.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PasswordProperty =
+            DependencyProperty.Register("Password", typeof(string), typeof(Bras), new PropertyMetadata(""));
+
+
+        #endregion
+
         private readonly string baseURL = "http://p.nju.edu.cn/portal_io/";
+
+        private readonly string dataFile = "data.txt";
 
         private async Task<JObject> JsonResponseHelper(string post)
         {
@@ -94,6 +130,9 @@ namespace MyBrasClient
             string post = string.Format("login?username={0}&password={1}", username, password);
             var json = await JsonResponseHelper(post);
             CheckLogStatusHelper(json);
+            this.Username = username;
+            this.Password = password;
+            SaveData();
         }
 
         public async void Logout()
@@ -102,8 +141,35 @@ namespace MyBrasClient
             CheckLogStatusHelper(json);
         }
 
+        private async void LoadData()
+        {
+            var localFolder = ApplicationData.Current.LocalFolder;
+            try
+            {
+                StorageFile sf = await localFolder.GetFileAsync(dataFile);
+                string text = await FileIO.ReadTextAsync(sf);
+                StringReader reader = new StringReader(text);
+                this.Username = reader.ReadLine();
+                this.Password = reader.ReadLine();
+            }
+            catch
+            {
+                Debug.WriteLine("File doesn't exist.");
+                await localFolder.CreateFileAsync(dataFile);
+            }
+        }
+
+        private async void SaveData()
+        {
+            var localFolder = ApplicationData.Current.LocalFolder;
+            var sf = await localFolder.GetFileAsync(dataFile);
+            string contents = String.Format("{0}\n{1}", Username, Password);
+            await FileIO.WriteTextAsync(sf, contents);
+        }
+
         public Bras()
         {
+            LoadData();
             Check();
         }
     }

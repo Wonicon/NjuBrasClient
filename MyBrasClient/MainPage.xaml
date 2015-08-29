@@ -11,12 +11,12 @@
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <TextBlock Text="Username" Width="80" />
-                <TextBox x:Name="username" Width="150" InputScope="Number" IsEnabled="{x:Bind bras.LoggedOut, Mode=OneWay}" />
+                <TextBox x:Name="username" Text="{x:Bind bras.Username, Mode=OneWay}" Width="150" InputScope="Number" IsEnabled="{x:Bind bras.LoggedOut, Mode=OneWay}" />
             </StackPanel>
             
             <StackPanel Margin="5" Orientation="Horizontal">
                 <TextBlock Text="Password" Width="80" />
-                <PasswordBox x:Name="password" Width="150" IsEnabled="{x:Bind bras.LoggedOut, Mode=OneWay}" />
+                <PasswordBox x:Name="password" Width="150" Password="{x:Bind bras.Password, Mode=OneWay}" IsEnabled="{x:Bind bras.LoggedOut, Mode=OneWay}" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
