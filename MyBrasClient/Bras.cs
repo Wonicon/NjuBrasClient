@@ -134,8 +134,7 @@ namespace MyBrasClient
 
         public async void Login(string username, string password)
         {
-            string post = string.Format("login?username={0}&password={1}", username, password);
-            var json = await JsonResponseHelper(post);
+            var json = await JsonResponseHelper($"login?username={username}&password={password}");
             CheckLogStatusHelper(json);
             this.Username = username;
             this.Password = password;
@@ -170,8 +169,7 @@ namespace MyBrasClient
         {
             var localFolder = ApplicationData.Current.LocalFolder;
             var sf = await localFolder.GetFileAsync(dataFile);
-            string contents = String.Format("{0}\n{1}", Username, Password);
-            await FileIO.WriteTextAsync(sf, contents);
+            await FileIO.WriteTextAsync(sf, $"{Username}\n{Password}");
         }
 
         public Bras()
