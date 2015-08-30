@@ -87,10 +87,17 @@ namespace MyBrasClient
         private async Task<JObject> JsonResponseHelper(string post)
         {
             Debug.WriteLine(baseURL + post);
-            WebRequest request = WebRequest.Create(baseURL + post);
-            WebResponse response = await request.GetResponseAsync();
-            Stream responseStream = response.GetResponseStream();
-            return JObject.Parse((new StreamReader(responseStream)).ReadToEnd());
+            try
+            {
+                WebRequest request = WebRequest.Create(baseURL + post);
+                WebResponse response = await request.GetResponseAsync();
+                Stream responseStream = response.GetResponseStream();
+                return JObject.Parse((new StreamReader(responseStream)).ReadToEnd());
+            }
+            catch
+            {
+                return JObject.Parse(@"{""reply_msg"":""HTTP connection failed."", ""reply_code"":""2""}");
+            }
         }
 
         private void CheckLogStatusHelper(JObject json)
